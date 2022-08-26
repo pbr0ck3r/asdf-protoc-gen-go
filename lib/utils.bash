@@ -2,8 +2,7 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for protoc-gen-go.
-GH_REPO="https://github.com/pbr0ck3r/protoc-gen-go"
+GH_REPO="https://github.com/protocolbuffers/protobuf-go"
 TOOL_NAME="protoc-gen-go"
 TOOL_TEST="protoc-gen-go --version"
 
@@ -41,11 +40,12 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for protoc-gen-go
   url="$GH_REPO/archive/v${version}.tar.gz"
 
+  echo "$filename"
+
   echo "* Downloading $TOOL_NAME release $version..."
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  curl "${curl_opts[@]}" -o $filename -C - "$url" || fail "Could not download $url"
 }
 
 install_version() {
@@ -59,9 +59,9 @@ install_version() {
 
   (
     mkdir -p "$install_path"
-    cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    # protoc-gen-go is built in /bin/download
+    cp -r "$ASDF_DOWNLOAD_PATH"/cmd/$TOOL_NAME/$TOOL_NAME "$install_path"
 
-    # TODO: Assert protoc-gen-go executable exists.
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
