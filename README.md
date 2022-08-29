@@ -3,7 +3,7 @@
 # asdf-protoc-gen-go [![Build](https://github.com/pbr0ck3r/asdf-protoc-gen-go/actions/workflows/build.yml/badge.svg)](https://github.com/pbr0ck3r/asdf-protoc-gen-go/actions/workflows/build.yml) [![Lint](https://github.com/pbr0ck3r/asdf-protoc-gen-go/actions/workflows/lint.yml/badge.svg)](https://github.com/pbr0ck3r/asdf-protoc-gen-go/actions/workflows/lint.yml)
 
 
-[protoc-gen-go](https://github.com/pbr0ck3r/protoc-gen-go) plugin for the [asdf version manager](https://asdf-vm.com).
+[protoc-gen-go](https://github.com/protocolbuffers/protobuf-go) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
 
