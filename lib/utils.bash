@@ -42,8 +42,6 @@ download_release() {
 
   url="$GH_REPO/archive/v${version}.tar.gz"
 
-  echo "$filename"
-
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o $filename -C - "$url" || fail "Could not download $url"
 }
