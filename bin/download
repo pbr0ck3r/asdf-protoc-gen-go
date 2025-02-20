@@ -2,16 +2,12 @@
 
 set -euo pipefail
 
-current_script_path=${BASH_SOURCE[0]}
-# capture the go version currently in use by asdf, assuming you are installing from
-# the directory with the tool defined.  The following is the cleanest way I could
-# find to get the version of golang used
+# copy of PWD in case something changes it, PWD should be the directory where
+#   asdf install protoc-gen-go
+# is being called from
+WORKING_DIR=$PWD
 
-# first check if go is provided by asdf
-GOVERSION=
-if asdf list golang > /dev/null 2>&1 ; then
-  GOVERSION=$(basename $(asdf where golang))
-fi
+current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
 # shellcheck source=../lib/utils.bash
@@ -30,15 +26,15 @@ tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "
 
 # Build protoc-gen-go binary
 pushd "$ASDF_DOWNLOAD_PATH"/cmd/$TOOL_NAME >/dev/null 2>&1 || exit 1
-# if we found we were running within asdf, we'll add a .tool-version with the version of
-# go used via asdf for the current run path
-if test -n "$GOVERSION"; then
-  if ! test -f .tool-versions; then
-    echo "golang $GOVERSION" > .tool-versions
+# if we find a .tool-versions in the working directory (eg, the one asdf install is being called
+# from), we'll check for golang in that directory and if it's there, add that same version to
+# the checkout so that the build of protoc-gen-go below will use that version.
+if test -f $WORKING_DIR/.tool-versions ; then
+  if grep golang $WORKING_DIR/.tool-versions > /dev/null 2>&1 ; then
+    grep golang $WORKING_DIR/.tool-versions > .tool-versions
   fi
 fi
 go build || fail "Could not build $TOOL_NAME from $ASDF_DOWNLOAD_PATH"
-rm -f .tool-versions  # remove the temporary .tool-versions in case it matters
 popd >/dev/null 2>&1 || exit 1
 
 # Remove the tar.gz file since we don't need to keep it
