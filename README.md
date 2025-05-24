@@ -17,7 +17,7 @@
 # Dependencies
 
 - `bash`, `curl`, `tar`: generic POSIX utilities.
-- `go`: `brew install go`
+- `go`: `brew install go` OR `add `golang <version>` to your `.tool-versions` file
 - `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
@@ -40,7 +40,7 @@ asdf list-all protoc-gen-go
 asdf install protoc-gen-go latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global protoc-gen-go latest
+asdf set -u protoc-gen-go latest
 
 # Now protoc-gen-go commands are available
 protoc-gen-go --version
