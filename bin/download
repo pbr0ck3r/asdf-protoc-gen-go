@@ -29,9 +29,9 @@ pushd "$ASDF_DOWNLOAD_PATH"/cmd/$TOOL_NAME >/dev/null 2>&1 || exit 1
 # if we find a .tool-versions in the working directory (eg, the one asdf install is being called
 # from), we'll check for golang in that directory and if it's there, add that same version to
 # the checkout so that the build of protoc-gen-go below will use that version.
-if test -f $WORKING_DIR/.tool-versions ; then
-  if grep golang $WORKING_DIR/.tool-versions > /dev/null 2>&1 ; then
-    grep golang $WORKING_DIR/.tool-versions > .tool-versions
+if test -f "$WORKING_DIR/.tool-versions"; then
+  if grep golang "$WORKING_DIR/.tool-versions" >/dev/null 2>&1; then
+    grep golang "$WORKING_DIR/.tool-versions" >.tool-versions
   fi
 fi
 go build || fail "Could not build $TOOL_NAME from $ASDF_DOWNLOAD_PATH"
